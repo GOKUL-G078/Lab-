@@ -1,0 +1,86 @@
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+Node* head = nullptr;
+void insert(int x) {
+    Node* n = new Node;
+    n->data = x;
+    n->next = nullptr;
+
+    if (head == nullptr) {
+        head = n;
+        return;
+    }
+
+    Node* temp = head;
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+
+    temp->next = n;
+}
+void createLoop(int pos) {
+    if (head == nullptr || pos <= 0)
+        return;
+
+    Node* target = head;
+
+    for (int i = 1; i < pos && target != nullptr; i++) {
+        target = target->next;
+    }
+
+    if (target == nullptr)
+        return;
+
+    Node* temp = head;
+
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+
+    temp->next = target;
+}
+void detectLoop() {
+    Node* slow = head;
+    Node* fast = head;
+
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast) {
+            cout << "Loop found";
+            return;
+        }
+    }
+
+    cout << "Loop not found";
+}
+
+int main() {
+    int n, x, pos;
+
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cout << "Enter data: ";
+        cin >> x;
+        insert(x);
+    }
+
+    cout << "Enter loop position (0 for no loop): ";
+    cin >> pos;
+
+    createLoop(pos);
+
+    detectLoop();
+
+    return 0;
+}
