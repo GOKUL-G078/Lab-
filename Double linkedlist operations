@@ -25,7 +25,6 @@ void insertBeginning(int x) {
     head = n;
 }
 
-// Insert at end
 void insertEnd(int x) {
     Node* n = new Node;
 
@@ -48,7 +47,6 @@ void insertEnd(int x) {
     n->prev = temp;
 }
 
-// Delete a node
 void deleteNode(int x) {
     Node* temp = head;
 
@@ -75,7 +73,6 @@ void deleteNode(int x) {
     cout << "Node deleted\n";
 }
 
-// Display forward
 void displayForward() {
     Node* temp = head;
 
@@ -89,7 +86,6 @@ void displayForward() {
     cout << endl;
 }
 
-// Display backward
 void displayBackward() {
     if (head == nullptr) {
         cout << "List is empty\n";
