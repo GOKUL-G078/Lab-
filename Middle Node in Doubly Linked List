@@ -1,0 +1,66 @@
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* prev;
+    Node* next;
+};
+
+Node* head = nullptr;
+void insert(int x) {
+    Node* n = new Node;
+
+    n->data = x;
+    n->prev = nullptr;
+    n->next = nullptr;
+
+    if (head == nullptr) {
+        head = n;
+        return;
+    }
+
+    Node* temp = head;
+
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+
+    temp->next = n;
+    n->prev = temp;
+}
+void findMiddle() {
+    if (head == nullptr) {
+        cout << "List is empty";
+        return;
+    }
+
+    Node* slow = head;
+    Node* fast = head;
+
+    while (fast != nullptr && fast->next != nullptr) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    cout << "Middle node: " << slow->data << endl;
+    cout << "Middle node address: " << slow << endl;
+}
+
+int main() {
+    int n, x;
+
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cout << "Enter data: ";
+        cin >> x;
+        insert(x);
+    }
+
+    findMiddle();
+
+    return 0;
+}
