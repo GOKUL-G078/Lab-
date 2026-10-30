@@ -1,0 +1,153 @@
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int coeff;
+    int exp;
+    Node* next;
+};
+void insert(Node*& head, int c, int e) {
+    Node* n = new Node;
+    n->coeff = c;
+    n->exp = e;
+    n->next = nullptr;
+
+    if (head == nullptr) {
+        head = n;
+        return;
+    }
+
+    Node* temp = head;
+
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+
+    temp->next = n;
+}
+void read(Node*& head) {
+    int n, c, e;
+
+    cout << "Enter number of terms: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cout << "Enter coefficient and exponent: ";
+        cin >> c >> e;
+        insert(head, c, e);
+    }
+}
+void display(Node* head) {
+    while (head != nullptr) {
+        cout << head->coeff << "x^" << head->exp;
+
+        if (head->next != nullptr)
+            cout << " + ";
+
+        head = head->next;
+    }
+
+    cout << endl;
+}
+void insertTerm(Node*& head, int c, int e) {
+    if (c == 0)
+        return;
+
+    Node* temp = head;
+    Node* prev = nullptr;
+
+    while (temp != nullptr && temp->exp > e) {
+        prev = temp;
+        temp = temp->next;
+    }
+
+    if (temp != nullptr && temp->exp == e) {
+        temp->coeff += c;
+        return;
+    }
+
+    Node* n = new Node;
+    n->coeff = c;
+    n->exp = e;
+    n->next = temp;
+
+    if (prev == nullptr)
+        head = n;
+    else
+        prev->next = n;
+}
+Node* add(Node* p1, Node* p2) {
+    Node* result = nullptr;
+
+    while (p1 != nullptr && p2 != nullptr) {
+        if (p1->exp == p2->exp) {
+            insertTerm(result, p1->coeff + p2->coeff, p1->exp);
+            p1 = p1->next;
+            p2 = p2->next;
+        }
+        else if (p1->exp > p2->exp) {
+            insertTerm(result, p1->coeff, p1->exp);
+            p1 = p1->next;
+        }
+        else {
+            insertTerm(result, p2->coeff, p2->exp);
+            p2 = p2->next;
+        }
+    }
+
+    while (p1 != nullptr) {
+        insertTerm(result, p1->coeff, p1->exp);
+        p1 = p1->next;
+    }
+
+    while (p2 != nullptr) {
+        insertTerm(result, p2->coeff, p2->exp);
+        p2 = p2->next;
+    }
+
+    return result;
+}
+Node* multiply(Node* p1, Node* p2) {
+    Node* result = nullptr;
+
+    for (Node* a = p1; a != nullptr; a = a->next) {
+        for (Node* b = p2; b != nullptr; b = b->next) {
+            int c = a->coeff * b->coeff;
+            int e = a->exp + b->exp;
+
+            insertTerm(result, c, e);
+        }
+    }
+
+    return result;
+}
+
+int main() {
+    Node* p1 = nullptr;
+    Node* p2 = nullptr;
+
+    cout << "Enter first polynomial:\n";
+    read(p1);
+
+    cout << "Enter second polynomial:\n";
+    read(p2);
+
+    cout << "\nFirst Polynomial: ";
+    display(p1);
+
+    cout << "Second Polynomial: ";
+    display(p2);
+
+    Node* sum = add(p1, p2);
+
+    cout << "\nAddition: ";
+    display(sum);
+
+    Node* product = multiply(p1, p2);
+
+    cout << "Multiplication: ";
+    display(product);
+
+    return 0;
+}
