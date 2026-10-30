@@ -1,0 +1,141 @@
+
+#include <iostream>
+using namespace std;
+
+template <class T>
+class Node {
+public:
+    T data;
+    Node<T>* next;
+};
+
+template <class T>
+class LinkedList {
+    Node<T>* head;
+
+public:
+    LinkedList() {
+        head = nullptr;
+    }
+
+    void insert(T x) {
+        Node<T>* n = new Node<T>;
+
+        n->data = x;
+        n->next = nullptr;
+
+        if (head == nullptr) {
+            head = n;
+        } else {
+            Node<T>* temp = head;
+
+            while (temp->next != nullptr) {
+                temp = temp->next;
+            }
+
+            temp->next = n;
+        }
+    }
+
+    void display() {
+        Node<T>* temp = head;
+
+        while (temp != nullptr) {
+            cout << temp->data << " -> ";
+            temp = temp->next;
+        }
+
+        cout << "NULL\n";
+    }
+
+    void search(T key) {
+        Node<T>* temp = head;
+        int pos = 1;
+
+        while (temp != nullptr) {
+            if (temp->data == key) {
+                cout << "Element found at position " << pos;
+                return;
+            }
+
+            temp = temp->next;
+            pos++;
+        }
+
+        cout << "Element not found";
+    }
+
+    void deleteNode(T key) {
+        Node<T>* temp = head;
+        Node<T>* prev = nullptr;
+
+        while (temp != nullptr && temp->data != key) {
+            prev = temp;
+            temp = temp->next;
+        }
+
+        if (temp == nullptr) {
+            cout << "Element not found\n";
+            return;
+        }
+
+        if (prev == nullptr) {
+            head = temp->next;
+        } else {
+            prev->next = temp->next;
+        }
+
+        delete temp;
+        cout << "Node deleted\n";
+    }
+};
+
+int main() {
+    LinkedList<int> list;
+    int choice, x;
+
+    do {
+        cout << "\n1. Insert";
+        cout << "\n2. Display";
+        cout << "\n3. Search";
+        cout << "\n4. Delete";
+        cout << "\n5. Exit";
+
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value: ";
+                cin >> x;
+                list.insert(x);
+                break;
+
+            case 2:
+                list.display();
+                break;
+
+            case 3:
+                cout << "Enter value to search: ";
+                cin >> x;
+                list.search(x);
+                break;
+
+            case 4:
+                cout << "Enter value to delete: ";
+                cin >> x;
+                list.deleteNode(x);
+                break;
+
+            case 5:
+                cout << "Exit";
+                break;
+
+            default:
+                cout << "Invalid choice";
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
