@@ -1,0 +1,64 @@
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* prev;
+    Node* next;
+};
+
+Node* head = nullptr;
+void insert(int x) {
+    Node* n = new Node;
+
+    n->data = x;
+    n->prev = nullptr;
+    n->next = nullptr;
+
+    if (head == nullptr) {
+        head = n;
+        return;
+    }
+
+    Node* temp = head;
+
+    while (temp->next != nullptr) {
+        temp = temp->next;
+    }
+
+    temp->next = n;
+    n->prev = temp;
+}
+void findSecondLast() {
+    if (head == nullptr || head->next == nullptr) {
+        cout << "Second last node does not exist";
+        return;
+    }
+
+    Node* temp = head;
+
+    while (temp->next->next != nullptr) {
+        temp = temp->next;
+    }
+
+    cout << "Second last node data: " << temp->data << endl;
+    cout << "Second last node address: " << temp << endl;
+}
+
+int main() {
+    int n, x;
+
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cout << "Enter data: ";
+        cin >> x;
+        insert(x);
+    }
+
+    findSecondLast();
+
+    return 0;
+}
