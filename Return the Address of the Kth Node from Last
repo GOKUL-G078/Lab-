@@ -1,0 +1,77 @@
+
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+Node* head = nullptr;
+void insert(int x) {
+    Node* n = new Node;
+
+    n->data = x;
+    n->next = nullptr;
+
+    if (head == nullptr) {
+        head = n;
+    } else {
+        Node* temp = head;
+
+        while (temp->next != nullptr) {
+            temp = temp->next;
+        }
+
+        temp->next = n;
+    }
+}
+Node* kthFromLast(int k) {
+    Node* first = head;
+    Node* second = head;
+
+    if (k <= 0)
+        return nullptr;
+
+    for (int i = 0; i < k; i++) {
+        if (first == nullptr)
+            return nullptr;
+
+        first = first->next;
+    }
+
+    while (first != nullptr) {
+        first = first->next;
+        second = second->next;
+    }
+
+    return second;
+}
+
+int main() {
+    int n, x, k;
+
+    cout << "Enter number of nodes: ";
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cout << "Enter value: ";
+        cin >> x;
+
+        insert(x);
+    }
+
+    cout << "Enter k: ";
+    cin >> k;
+
+    Node* result = kthFromLast(k);
+
+    if (result != nullptr) {
+        cout << "Kth node from last: " << result->data;
+        cout << "\nAddress of node: " << result;
+    } else {
+        cout << "Invalid position";
+    }
+
+    return 0;
+}
