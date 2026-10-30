@@ -1,0 +1,108 @@
+
+#include <iostream>
+using namespace std;
+
+template <class T>
+class Array {
+    T a[100];
+    int n;
+
+public:
+    void input() {
+        cout << "Enter number of elements: ";
+        cin >> n;
+
+        cout << "Enter elements: ";
+        for (int i = 0; i < n; i++) {
+            cin >> a[i];
+        }
+    }
+
+    void display() {
+        cout << "Array elements: ";
+        for (int i = 0; i < n; i++) {
+            cout << a[i] << " ";
+        }
+        cout << endl;
+    }
+
+    void insert() {
+        int pos;
+        T value;
+
+        cout << "Enter position: ";
+        cin >> pos;
+
+        cout << "Enter value: ";
+        cin >> value;
+
+        for (int i = n; i >= pos; i--) {
+            a[i] = a[i - 1];
+        }
+
+        a[pos - 1] = value;
+        n++;
+
+        display();
+    }
+
+    void deleteElement() {
+        int pos;
+
+        cout << "Enter position to delete: ";
+        cin >> pos;
+
+        for (int i = pos - 1; i < n - 1; i++) {
+            a[i] = a[i + 1];
+        }
+
+        n--;
+
+        display();
+    }
+
+    void search() {
+        T key;
+        cout << "Enter element to search: ";
+        cin >> key;
+
+        for (int i = 0; i < n; i++) {
+            if (a[i] == key) {
+                cout << "Element found at position " << i + 1;
+                return;
+            }
+        }
+
+        cout << "Element not found";
+    }
+};
+
+int main() {
+    Array<int> obj;
+    int choice;
+
+    obj.input();
+
+    do {
+        cout << "\n1. Display";
+        cout << "\n2. Insert";
+        cout << "\n3. Delete";
+        cout << "\n4. Search";
+        cout << "\n5. Exit";
+
+        cout << "\nEnter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: obj.display(); break;
+            case 2: obj.insert(); break;
+            case 3: obj.deleteElement(); break;
+            case 4: obj.search(); break;
+            case 5: cout << "Exit"; break;
+            default: cout << "Invalid choice";
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
